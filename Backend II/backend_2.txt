@@ -1,0 +1,172 @@
+process.exit(1) ?
+
+1. Installations
+i. npm i nodemon (to see live changes in app) and make changes in package.json like 
+"scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+} and now you can run with command npm run dev
+ii. npm i dotenv (to feed .env data to process)
+
+2. File Structure
+> index.js
+- Involves creating and activating server, mapping routes and port number, calling db connection function and setting default route
+
+> Routes (folder)
+files ...
+- Needs to use controller 
+- Needs to import router from express
+eg. const router = express.Router();
+- Has all the routes specified like GET, PUT, POST, etc where each path will be mapped with multiple controllers where all business logic is written
+
+> Controllers (folder)
+files ...
+- Has all business logic to be performed for each path or operation (CRUD) 
+- Performing operations like db connection, doing CRUD operations
+- May be using Model to use schema
+- Handling routes
+
+> Models (folder)
+files ...
+- Has all information about schema structure
+- Defining all properties about object structure like type, default, etc
+
+> Config (folder)
+files ...
+- Can have database related file which will connect your app with MongoDB making it generic code
+
+> .env
+- Will have all secret api keys, port number, database url, etc
+- eg. PORT = 3000
+DATABASE_URL = mongodb://127.0.0.1:27017/myDatabase
+
+3. Importing and Exporting in Backend
+- To import, use require()
+- To export, use module.exports = function/variable;
+or 
+module.exports = mongoose.model("Todo", todoSchema); (exported as Todo if using mongoose)
+or
+exports.createTodo = async(req, res) => {}
+
+Note: Using async, so that it will not interfer our main thread 
+
+4. Feeding .env data to process with dotenv library
+- require('dotenv').config()
+
+Note: Specifying port by yourself is bad practice, should do
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
+
+Note: To parse data from req.body using BodyParser is old practice, use instead
+app.use(express.json());
+
+5. process.exit()
+- A method in Node.js used to terminate the Node.js process 
+- Number passed as an argument to it indicates the exit code of the process
+- Exit Codes
+i. 0: Indicates that the process ended successfully without any errors.
+ii. 1 (or any non-zero value): Indicates that the process ended with an error.
+
+6. Testing response in Postman
+
+7. Mongoose Libray Functions
+i. MongoClient.connect(url, options)
+- Connects to a MongoDB server
+eg. const { MongoClient } = require('mongodb');
+const client = new MongoClient('mongodb://localhost:27017');
+await client.connect();
+
+ii. client.db(dbName)
+- Selects a database
+eg. const db = client.db('myDatabase');
+
+iii. db.collection(collectionName)
+- Selects a collection
+eg. const collection = db.collection('myCollection');
+
+iv. collection.insertOne(document)
+- Inserts a single document
+eg. const result = await collection.insertOne({ name: 'Alice', age: 25 });
+
+v. collection.insertMany(documents)
+- Inserts multiple documents
+eg. const result = await collection.insertMany([{ name: 'Bob', age: 30 }, { name: 'Charlie', age: 35 }]);
+
+vi. collection.find(query).toArray()
+- Finds documents that match the query
+eg. const results = await collection.find({ age: { $gt: 20 } }).toArray();
+
+vii. collection.findOne(query)
+- Finds a single document that matches the query
+eg. const result = await collection.findOne({ name: 'Alice' });
+
+viii. collection.updateOne(filter, update)
+- Updates a single document
+eg. const result = await collection.updateOne({ name: 'Alice' }, { $set: { age: 26 } });
+
+ix. collection.updateMany(filter, update)
+- Updates many documents
+eg. const result = await collection.updateMany({ age: { $lt: 30 } }, { $set: { isActive: true } });
+
+x. collection.deleteOne(filter)
+- Deletes a single document
+eg. const result = await collection.deleteOne({ name: 'Alice' });
+
+xi. collection.deleteMany(filter)
+- Deletes multiple documents
+eg. const result = await collection.deleteMany({ age: { $lt: 30 } });
+
+xii. findById(id)
+- Finds a single document by its _id field
+eg. const userId = '60d5f447f9b14630d8d53c0d'; 
+const user = await User.findById(userId);
+
+xiii. findByIdAndUpdate(id, update, options)
+- Finds a document by its _id field and updates it
+- options parameter often includes { new: true } to return the updated document
+eg. const updatedUser = await User.findByIdAndUpdate(userId, { age: 26 }, { new: true });
+Note: 'returnOriginal: false' is equivalent to 'new: true'
+
+xiv. findByIdAndDelete(id)
+- Finds a document by its _id field and deletes it
+- Faster than findByIdAndRemove(id)
+eg. const deletedUser = await User.findByIdAndDelete(userId);
+
+xv. findByIdAndRemove(id)
+- Finds a document by its _id and removes it
+eg. const userId = '60d5f447f9b14630d8d53c0d'; 
+User.findByIdAndRemove(userId)
+  .then((deletedUser) => {
+    console.log('Deleted User:', deletedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+xvi. findOneAndReplace(filter, replacement, options)
+- Finds a single document matching the filter and replaces it with the replacement document
+- Use the returnDocument option to return the new document else it will return original document by default
+eg. const filter = { name: 'Alice' };
+const replacement = { name: 'Alice', age: 30 };
+User.findOneAndReplace(filter, replacement, { returnDocument: 'after' })
+  .then((updatedUser) => {
+    console.log('Updated User:', updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+xvii. replaceOne(filter, replacement)
+- Replaces a single document matching the filter with the replacement document, without returning the document
+eg. User.replaceOne(filter, replacement)
+  .then((result) => {
+    console.log('Replace Result:', result);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+Blogging app
+- define routes for creating (/posts/create) and retrieving (/post) post 
+- define route for liking (/likes/like) & unliking (/likes/unlike) post 
+- define route for creating (/comments/create) & retrieving (/comments) comments

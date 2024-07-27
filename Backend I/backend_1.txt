@@ -1,0 +1,91 @@
+Backend Notes
+
+1. Express Js
+- A web application framework for Node.js designed to build web applications and APIs
+- Facilitates handling HTTP methods like GET, POST, PUT, DELETE, etc.
+- To create server-side application
+
+2. HTTP Requests
+- Methods used to interact with resources on a web server
+i. GET: Retrieve data from the server
+ii. POST: Submit data to the server to create a new resource
+iii. PUT: Update an existing resource on the server
+iv. DELETE: Remove a resource from the server
+
+3. Idempotent
+- An operation that can be performed multiple times without changing the result beyond the initial application
+- No matter how many times you perform the operation, the outcome remains the same
+- GET: Idempotent
+- POST: Not idempotent.
+Multiple POST requests may create multiple resources or cause different changes
+- PUT: Idempotent
+- DELETE: Idempotent
+
+4. Steps for creating server through Express
+i. Create one backend folder
+ii. Open that folder in VScode terminal
+iii. Run npm init -y which will install package.json file
+iv. Install Express through npm i express
+v. Create server.js file
+vi. To run file use node server.js
+
+server.js
+// creating a single express instance
+const express = require('express');
+// naming that instance as app
+const app = express();
+
+// activating server at port no. 3000
+app.listen(3000, () => {
+    console.log("Server initialized on port number 3000");
+});
+
+// creating route '/' on server instance app
+app.get('/', (req, res) => {
+    // sending response in string form on route '/'
+    res.send("Hii, Server started displaying on localhost:3000");
+});
+
+// you can't see post request by going on route '/api/cars'
+app.post('/api/cars', (req, res) => {
+    // submitting data through request
+    const {name, brand} = req.body;
+    console.log(name, brand);
+    // fetching response in string form
+    res.send("Posted car data successfully");
+});
+
+// used to parse req.Body in Express, when working with PUT or POST
+const bodyParser = require('body-parser');
+// specifically parsing JSON data & adding to req.Body object
+app.use(bodyParser.json());
+
+To verify POST request is working or not, we use Postman which tests or designs API
+
+5. Postman
+- Tool for testing and interacting with APIs through a user-friendly interface
+
+6. MongoDB
+- NoSQL database that stores data in flexible, JSON-like documents
+
+npm i mongoose
+7. Mongoose
+- ODM (Object Data Modeling) library for MongoDB, providing a schema-based solution to model data
+- To connect Node JS(server) with MongoDB
+- Becoz, to fecilitate data as MongoDB manages data as Document and Node JS manages as Object
+
+8. Connecting MongoDB with Node Js
+const mongoose = require('mongoose');
+// linking with db link if db is already present then it will directly connect with it else it will create new db if don't exist and then will connect
+// returns a promise
+mongoose.connect('mongodb://localhost:27017/myDatabase', {
+    // pre-defined configuration 
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+})
+
+// if resolved 
+.then(() => {console.log("Connection successful")})
+
+// if rejected
+.catch((error) => {console.log("Connection successful")})
