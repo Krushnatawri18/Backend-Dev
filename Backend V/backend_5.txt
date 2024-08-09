@@ -1,0 +1,177 @@
+1. How the Internet works?
+- Client search on browser(www.google.com) -> Passed to Domain Name Resolution -> Converts string to IP address -> Web server takes that requested address -> Sends response to the client
+
+2. Express Js
+- Node.js framework
+- Enable developers to build server-side applications that take HTTP request and responses, connect to database
+- Default port no is 3000
+
+3. Architecture
+- Node.js interacts with MongoDB through the Mongoose ODM library, which allows Node.js applications to perform CRUD operations on MongoDB. 
+
+4. Middlewares
+- Function that process the incoming HTTP requests and can do modifying the request or response object, sending response
+- Can be used by app.use()
+- Types
+i. Logging 
+- To log information of request or response
+ii. Parsing 
+- To parse incoming request bodies like XML, JSON or form data
+iii. Error Handling 
+- To handle errors while doing requests or response
+iv. Authentication 
+- To authorize users 
+
+5. Routes
+- Process of determining how app responds to particular endpoint path
+- app.METHOD(PATH, HANDLER)
+METHOD - HTTP Request type
+PATH - Route path on the server
+HANDLER - function to be executed when matched with path
+
+6. Mounting
+- Process of attaching middlewares to specific paths in Express app
+- const router = require('../routes/route);
+  app.use('/post', router); // when '/post' triggered it will call router function
+
+7. MongoDB
+- No-SQL database where data is stored in document or graph or key-value pair form
+- Scalable as it handles large amount of data
+
+8. Mongoose
+- Object Data Modelling library which provides a level of abstraction on the top of database
+- Connects MongoDB with Node.js because Node.js works with object and MongoDB works with document
+
+9. Nodemon
+- Tool of Node.js that monitors the project and automatically restarts the server whenever any changes made into that project
+- Watches .html, .js, .json files
+
+9. MVC Architecture
+- S/w development pattern or standard to separate three interconnected components
+i. Model
+- Defines schema 
+- Class which has properties and its behaviors
+- Takes two params while exporting like (name, schemaName)
+module.exports = mongoose.model(name of schema you want to be exported as, original name of schema)
+
+ii. View (Templates)
+- Represents the UI of application
+
+iii. Controller
+- Has business logic of application
+
+10. How to export?
+- module.exports = object1
+- exports.function1 = function1
+
+11. Schema, Model, Document, Collection
+- Schema(structure that defines the document) 
+- Model(class that involves schema with properties and behaviors)
+- Document(instance of a model)
+- Collection(collection of multiple documents)
+
+12. How many ways you can store data in MongoDB?
+i. Key-value pair
+eg. { "name": "Alice", "age": 30 }
+
+ii. Documents
+- Binary JSON format(includes date, binary, decimal-128)
+eg. {
+  "name": "Bob",
+  "address": {
+    "street": "123 Main St",
+    "city": "Springfield"
+  },
+  "hobbies": ["reading", "hiking"]
+}
+
+iii. Collections
+- Groups of documents, similar to tables in relational databases
+
+iv. Embedded Documents
+- Allows storing related data within a single document to optimize read performance
+eg. {
+  "title": "Book",
+  "author": {
+    "firstName": "John",
+    "lastName": "Doe"
+  }
+}
+
+v. Arrays
+eg. {
+  "name": "Carol",
+  "skills": ["JavaScript", "Python", "MongoDB"]
+}
+
+13. How request flows to get response?
+- Request made -> Added middleware -> Routed to that particular route -> Router handler(controller) is called (mapped with route) -> Interacts with model -> Interacts with DB -> Request fulfilled with response
+
+14. How one model or document interacts with other document in MongoDB?
+- Through either embedding or referencing
+i. Embedding
+- Nesting a document within another document
+- Have one-to-many relationships where the "many" side is relatively small and documents can be naturally nested
+eg. {
+  "_id": ObjectId("user1"),
+  "name": "Alice",
+  "addresses": [
+    {
+      "street": "123 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62701"
+    },
+    {
+      "street": "456 Elm St",
+      "city": "Monroe",
+      "state": "IL",
+      "zip": "61701"
+    }
+  ]
+} 
+
+eg. const addressSchema = new mongoose.Schema({
+  street: String,
+  city: String,
+  state: String,
+  zip: String
+});
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  addresses: [addressSchema]
+});
+
+ii. Referencing
+- Creating relationships between documents by storing the reference (ObjectId) of one document inside another document
+- Useful for large one-to-many relationships or many-to-many relationships
+eg. User: {
+  "_id": ObjectId("user1"),
+  "name": "Bob",
+  "orders": [
+    ObjectId("order1"),
+    ObjectId("order2")
+  ]
+}
+
+Order: {
+  "_id": ObjectId("order1"),
+  "product": "Laptop",
+  "quantity": 1,
+  "price": 1000,
+  "user_id": ObjectId("user1")
+}
+
+eg. const orderSchema = new mongoose.Schema({
+  product: String,
+  quantity: Number,
+  price: Number,
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+});
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }]
+});
+

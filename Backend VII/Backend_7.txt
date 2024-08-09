@@ -1,0 +1,222 @@
+1. Authentication
+- To verify the identity of a user
+
+2. Authorization
+- About user permissions and roles, allowing the server to grant or deny access to certain resources or actions
+
+npm install jsonwebtoken
+3. JWT Tokens
+- A JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be transferred between two parties
+
+4. Structure of a JWT
+A JWT is composed of three parts
+
+i. Header
+- Contains metadata about the type of token and the algorithm used for signing, usually HMAC SHA256 or RSA
+ii. Payload
+- Contains the statements or information about an entity (typically, the user) and additional data
+iii. Signature
+- Used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way
+
+5. How JWT Works?
+i. Client logs in
+- The user logs in using their credentials
+ii. Server generates a JWT
+- Upon successful authentication, the server generates a JWT with a secret key
+iii. Client receives the JWT
+- The JWT is sent to the client
+iv. Client sends the JWT with requests
+- The client stores the JWT (usually in local storage or a cookie) and sends it with subsequent requests, usually in the Authorization header (Authorization- Bearer <token>)
+v. Server validates the JWT
+- The server validates the JWT and grants access to protected resources if valid
+
+6. Cookies
+- Small pieces of data that servers send to clients, which clients store and send back to servers with subsequent requests
+- Commonly used for session management, personalization, and tracking.
+- Cookie Properties
+i. Domain
+- Specifies which domain the cookie is available to.
+ii. Path
+- Indicates a URL path that must exist in the requested URL for the browser to send the Cookie header.
+iii. Secure
+- If true, the cookie is only sent over HTTPS.
+iv. HttpOnly
+- If true, the cookie is inaccessible to JavaScript's Document.cookie API, and only the server can access it.
+v. SameSite
+- Controls whether a cookie is sent with cross-site requests, helping to prevent cross-site request forgery (CSRF) attacks.
+
+npm install bcrypt
+7. bcrypt Library
+- Library to hash passwords
+- Incorporates a salt to protect against rainbow table attacks and performs multiple iterations to increase the computational effort required to crack the hashed passwords
+
+8. Retry Strategy
+- A method used in software systems to handle transient failures by automatically attempting to perform a failed operation again
+- Key Components of a Retry Strategy
+i. Retry Count
+- Number of times to retry the operation before giving up
+- Prevents infinite retries and ensures that the system eventually moves on if the problem persists.
+
+ii. Delay Between Retries
+- Amount of time to wait before each retry
+- Can be a fixed delay, an incremental delay, or an exponential backoff.
+
+iii. Backoff Strategy
+- A method for increasing the delay between retries, typically to reduce the load on a failing service and give it time to recover 
+- Common backoff strategies include - 
+
+a. Fixed Backoff
+- A constant delay between retries
+b. Incremental Backoff
+- The delay increases linearly with each retry
+c. Exponential Backoff
+- The delay doubles with each retry
+d. Randomized Exponential Backoff
+- Adds a random jitter to the exponential backoff to avoid synchronized retries in a distributed system
+
+iv. Jitter
+- Adding randomness to the delay to prevent a large number of clients from retrying simultaneously, which can cause a thundering herd problem
+
+Note- Whatever validation you want to do must be done at backend instead of giving more load on frontend
+
+9. Hashing and its algorithms
+- Used to convert data into a fixed-size string or number
+- Characteristics of Hash Functions -
+i. Deterministic
+- The same input always produces the same output
+ii. Preimage Resistance
+- Given a hash value, it should be difficult to reverse-engineer the original input
+iii. Small Changes in Input Change the Output Significantly
+iv. Fixed Output Length
+- Regardless of input size, the output length is fixed
+
+- eg.
+i. MD5 (Message Digest Algorithm 5)
+- Produces a 128-bit hash value
+ii. SHA-1 (Secure Hash Algorithm 1)
+- Produces a 160-bit hash value
+iii. SHA-256 (Secure Hash Algorithm 256-bit)
+- Part of the SHA-2 family, producing a 256-bit hash value
+iv. SHA-3
+- The latest member of the Secure Hash Algorithm family, with variable output lengths (224, 256, 384, and 512 bits)
+
+10. bcrypt.hash(data, salt, cb)
+- data - [required] - the data to be encrypted
+- salt - [required] - the cost factor that determines how computationally expensive the hashing operation will be
+-  a random value added to the input of a hash function to ensure that the output (the hash) is unique even for identical inputs
+- higher the number, the more secure (and slower) the hashing process will be, commonly used 10 or 12
+- cb - [optional] - a callback to be fired once the data has been encrypted
+i. err - First parameter to the callback detailing any errors
+ii. encrypted - Second parameter to the callback providing the encrypted form
+
+11. bcrypt.compare(data, encrypted, cb)
+- data - [required] - data to compare
+- encrypted - [required] - data to be compared to
+- cb - [optional] - a callback to be fired once the data has been compared
+i. err - First parameter to the callback detailing any errors.
+ii. same - Second parameter to the callback providing whether the data and encrypted forms match [true | false].
+- Comparison Process -
+i. When a user attempts to log in, they provide their plain text password
+ii. The bcrypt.compare function takes this plain text password and the stored hashed password
+iii. Bcrypt extracts the salt from the stored hash
+iv. Bcrypt then combines the provided plain text password with the extracted salt and hashes the result
+v. Finally, bcrypt compares this newly generated hash with the stored hash
+
+12. jwt.sign(Payload, SECRET_KEY, options, cb)
+- Payload
+Type - object or string or Buffer
+Description - Data to include in the token, such as user details or claims
+
+- SECRET_KEY
+Type - string or Buffer
+Description - Key used to sign the token, ensuring its integrity
+
+- options
+Type - object (optional)
+Description - Configurations for the token
+i. expiresIn - Token expiration time ("1h", "2 days", etc.)
+ii. audience - Recipients of the token
+iii. issuer - Principal issuing the token
+iv. subject - Subject of the token
+v. notBefore - Time before which the token is not valid
+vi. algorithm - Signing algorithm (default HS256)
+
+- cb
+Type- function (optional)
+Description - Function called once the token is created
+
+13. jwt.verify(Token, SECRET_KEY, options, cb)
+- To verify the authenticity and validity of a JSON Web Token (JWT)
+- Token
+Type - string
+Description - The JWT to be verified
+
+- SECRET_KEY
+Type - string or Buffer
+Description - oken's signature
+The secret key (for HMAC algorithms) or the public key (for RSA or ECDSA algorithms) used to verify the t
+- options
+Type - object (optional)
+Description - Additional options to specify token verification criteria
+i. audience- The expected audience of the token
+ii. issuer - The expected issuer of the token
+iii. subject - The expected subject of the token
+iv. maxAge - The maximum allowable age for the token (e.g., 2 days, 10h)
+v. clockTolerance - Clock tolerance in seconds for verifying token expiration
+vi. algorithms - List of acceptable algorithms to check against the algorithm used in the token
+
+- cb
+Type - function (optional)
+Description - A function that is called once the verification is complete. This function receives three arguments - err, decoded, and token.
+
+14. Middlewares
+- Interrupting request in middle and checking authenticity as passed JWT Token with request and authorization based on role and then passing request to server
+
+npm install cookie-parser
+15. Cookie-parser
+- To fech token from cookies
+
+16. Different ways to fetch token
+i. From cookie
+req.cookies.token
+
+ii. From req.body (less secure)
+req.body.token
+
+iii. From req.header (secure)
+req.header('Authorization').replace('Bearer ', '');
+- Passing in Header, key=Authorization value=Bearer <Token>
+or
+- Passing value=<Token> in Authorization tab and selecting Bearer Token as type
+
+17. Cookie hijacking and Token hijacking
+- Cookie hijacking occurs when an attacker intercepts a user's session cookie, allowing them to gain unauthorized access to the user's active session with a web application
+- Token hijacking occurs when an attacker intercepts or steals a token (JWT) that is used for authentication or authorization
+- Happens when
+i. Attackers intercept cookies by positioning themselves between the user and the server over unsecured connections (like HTTP)
+ii. Cross-Site Scripting (XSS)
+- Malicious scripts injected into web pages steal cookies from the user’s browser
+- Prevention
+i. Use HTTPS
+- Encrypts tokens in transit to prevent interception
+ii. Use HttpOnly and Secure Cookies
+- If tokens are stored in cookies, these attributes add layers of security
+iii. Avoid Storing Tokens in LocalStorage
+iv. samesite attributes
+- Controls whether cookies should be sent with requests that come from another site (a cross-site request)
+- Values
+i. SameSite=Strict
+Scenario - You have a banking app (bank.com)
+Behavior - If the user clicks a link to bank.com from their email, the browser won’t send the session cookie because it considers this a cross-site request so the user would need to log in again
+
+ii. SameSite=Lax
+Scenario - You have a social media site (social.com)
+Behavior - If the user clicks a link to social.com from an external site like a news article, the browser will send the session cookie, allowing the user to stay logged in
+
+iii. SameSite=None
+Scenario - Your app (app.com) integrates with an external payment processor (payment.com)
+Behavior - The session cookie is sent in all contexts, including when payment.com redirects back to app.com so this is essential for completing the payment process
+
+v. secure attribute
+- Ensures that the cookie is only sent over HTTPS, not over unsecured HTTP
+- secure:true

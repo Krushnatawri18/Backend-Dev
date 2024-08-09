@@ -1,0 +1,172 @@
+1. Best practice to use id reference when creating nested schema 
+eg.
+commentModel.js
+const commentSchema = new mongoose.Schema(
+    {
+        post:{
+            type: mongoose.Schema.Types.ObjectId, // providing the id of object or schema you want to refer     
+            ref: "Post"  // referring to the Post model
+        },
+    }
+)
+
+postModel.js
+const mongoose = require('mongoose');
+const postSchema = new mongoose.Schema(
+    {
+        title:{
+            type: String,
+            required: true
+        },
+        comments: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }]
+    }
+)
+// referring to this Post
+module.exports = mongoose.model("Post", postSchema);
+
+2. save
+- To insert a new document or update an existing document in a collection.
+- If the document contains an _id field that matches an existing document in the collection, save() will update that existing document.
+- If the document does not contain an _id field or if the _id field does not match any existing documents, save() will insert the document as a new document.
+eg. db.collection.save(document)
+eg. db.collection.save({ _id: ObjectId("5f50c31b5d1c2b1234567890"), name: "Jane Doe", age: 25 })
+
+3. Mongoose Operations
+
+i. Update Operators
+These operators are used to modify the data in a document.
+
+Array Update Operators
+a. $push: Adds an element to an array.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $push: { scores: 89 } }
+);
+
+b. $pull: Removes all instances of a value from an array.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $pull: { scores: 89 } }
+);
+
+c. $addToSet: Adds an element to an array only if it does not already exist.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $addToSet: { scores: 89 } }
+);
+
+d. $pop: Removes the first or last element of an array.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $pop: { scores: 1 } }  // 1 for the last element, -1 for the first element
+);
+
+ii. Field Update Operators
+a. $set: Sets the value of a field in a document.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $set: { name: "John" } }
+);
+
+b. $unset: Removes a field from a document.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $unset: { name: "" } }
+);
+
+c. $inc: Increments the value of a field by a specified amount.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $inc: { age: 1 } }
+);
+
+d. $mul: Multiplies the value of a field by a specified amount.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $mul: { salary: 1.1 } }
+);
+
+e. $rename: Renames a field.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $rename: { oldName: "newName" } }
+);
+
+f. $min: Updates the field to a specified value if the specified value is less than the current value of the field.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $min: { age: 20 } }
+);
+
+g. $max: Updates the field to a specified value if the specified value is greater than the current value of the field.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $max: { age: 40 } }
+);
+
+h. $currentDate: Sets the value of a field to the current date.
+eg. db.collection.updateOne(
+    { _id: 1 },
+    { $currentDate: { lastModified: true } }
+);
+
+iii. Query Operators
+These operators are used to specify conditions in Mongoeg. db queries.
+
+Comparison Query Operators
+a. $eq: Matches values that are equal to a specified value.
+eg. db.collection.find({ age: { $eq: 25 } });
+
+b.$ne: Matches values that are not equal to a specified value.
+eg. db.collection.find({ age: { $ne: 25 } });
+
+c. $gt: Matches values that are greater than a specified value.
+eg. db.collection.find({ age: { $gt: 25 } });
+
+d. $gte: Matches values that are greater than or equal to a specified value.
+eg. db.collection.find({ age: { $gte: 25 } });
+
+e. $lt: Matches values that are less than a specified value.
+eg. db.collection.find({ age: { $lt: 25 } });
+
+f. $lte: Matches values that are less than or equal to a specified value.
+eg. db.collection.find({ age: { $lte: 25 } });
+
+g. $in: Matches any of the values specified in an array.
+eg. db.collection.find({ age: { $in: [25, 30, 35] } });
+
+h. $nin: Matches none of the values specified in an array.
+eg. db.collection.find({ age: { $nin: [25, 30, 35] } });
+
+iv. Logical Query Operators
+a. $and: Joins query clauses with a logical AND.
+eg. db.collection.find({ $and: [ { age: { $gt: 25 } }, { age: { $lt: 30 } } ] });
+
+b. $or: Joins query clauses with a logical OR.
+eg. db.collection.find({ $or: [ { age: { $lt: 25 } }, { age: { $gt: 30 } } ] });
+
+c. $not: Inverts the effect of a query expression.
+eg. db.collection.find({ age: { $not: { $gt: 25 } } });
+
+d. $nor: Joins query clauses with a logical NOR.
+eg. db.collection.find({ $nor: [ { age: { $gt: 25 } }, { age: { $lt: 30 } } ] });
+
+v. Element Query Operators
+a. $exists: Matches documents that have the specified field.
+eg. db.collection.find({ age: { $exists: true } });
+
+b. $type: Matches documents where the field is of the specified type.
+eg. db.collection.find({ age: { $type: "int" } });
+
+vi. Array Query Operators
+a. $all: Matches arrays that contain all elements specified in the query.
+eg. db.collection.find({ tags: { $all: ["red", "blue"] } });
+
+b. $elemMatch: Matches documents that contain an array field with at least one element that matches all the specified criteria.
+eg. db.collection.find({ scores: { $elemMatch: { $gt: 80, $lt: 90 } } });
+
+c. $size: Matches any array with the specified number of elements.
+eg. db.collection.find({ tags: { $size: 3 } });

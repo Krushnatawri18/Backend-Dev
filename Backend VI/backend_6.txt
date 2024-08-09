@@ -1,0 +1,15 @@
+1. Cloud DB connection (Atlas)
+- Visit Mongodb Atlas website
+- Register your account with Google
+- Fill the info about your goal and motive behing using Atlas
+- Now go back on cloud.mongodb.com
+- Create new project and name it and click on create project 
+- Click on build database and then select free service plan and click on create
+- Save your id and password somewhere
+- Click on create user
+- Now go to Database and connect using compass
+- Copy connection string and add it to DATABASE_URL in .env file and can also add it to Mongodb compass of your machine and can connect it
+
+2. Install node modules in both folders
+npm i
+

@@ -10,11 +10,11 @@ app.listen(process.env.PORT, () => {
     console.log(`Server started at ${PORT}`);
 })
 
-const blogRoutes = require('./routes/Route');
-app.use('/posts/v1', blogRoutes);
+const routes= require('./routes/BlogRoutes');
+app.use('/posts/v1', routes);
 
-const dbConnect = require('./config/database');
-dbConnect();
+const connectWithDB = require('./config/database');
+connectWithDB();
 
 app.get('/', (req, res)=> {
     res.send(`<h1>Homepage</h1>`);

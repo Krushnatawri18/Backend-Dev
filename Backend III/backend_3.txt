@@ -1,9 +1,9 @@
 1. Mongoose Libray Functions
 i. MongoClient.connect(url, options)
 - Connects to a MongoDB server
-eg. const { MongoClient } = require('mongodb');
+eg. consct { MongoClient } = require('mongodb');
 const client = new MongoClient('mongodb://localhost:27017');
-await client.connect();
+await client.connet();
 
 ii. client.db(dbName)
 - Selects a database
