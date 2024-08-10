@@ -1,0 +1,29 @@
+File Upload
+
+npm install cloudinary
+1. Cloudinary
+- A cloud-based service that provides an end-to-end solution for managing, optimizing, and delivering digital assets, such as images and videos
+- Automatically optimizes media files for faster delivery by adjusting file formats, compressing files, and using Content Delivery Networks (CDNs) to serve them from locations close to the use
+
+2. Steps for Cloudinary Setup
+- Login into cloudinary.com
+- Go on settings at left below corner
+- Click on API Keys
+- Copy API_KEY and put into .env file
+- Copy API_SECRET and put into .env file
+- Go back on getting started page and click on dashboard
+- Copy CLOUD_NAME and put into .env file
+
+npm i express-fileupload
+3. Express fileupload
+- To make App communicate with files
+- Simple express middleware for uploading files on server
+
+4. Multer 
+- Can also be used for uploading files
+
+5. req.files.file
+- fetching file from object that contains all the files uploaded in a form submission
+
+6. Uploading file through Postman
+- Send file through body-> form-data-> key and value (file) pair and select type as file
