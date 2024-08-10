@@ -44,7 +44,7 @@ Make sure you have the following installed on your local machine:
 
 1. **Clone the repository**
 
-   Open your terminal and run the following command to clone the repository:
+  Open your terminal and run the following command to clone the repository:
 
    ```bash
       git clone https://github.com/Krushnatawri18/backend-development.git
