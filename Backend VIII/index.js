@@ -6,7 +6,10 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 // uploads files on server
 const fileUpload = require('express-fileupload');
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles: true, // This allows file.tempFilePath to be available
+    tempFileDir: '/tmp/' // Ensure this directory exists or set a valid one
+}));
 
 // api route mounting
 const Upload = require('./routes/FileUpload');

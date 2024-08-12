@@ -31,3 +31,61 @@ i. useTempFiles	- false (default) or true
 
 6. Uploading file through Postman
 - Send file through body-> form-data-> key and value (file) pair and select type as file
+
+7. Steps for creating folder in Cloudinary to store media
+- Login to cloudinary.com
+- Go to Media Library
+- Go to Folder section and create a new folder
+
+8. Why their is change in name of file while saving on Cloudinary?
+- The platform automatically generates a unique public ID (name) for the file unless you explicitly specify one
+- Done to ensure that each file has a unique identifier and to avoid conflicts with files that may have the same name
+
+9. cloudinary.uploader.upload(path, options)
+i. path (required) -  
+Type - string
+Description - The file path or URL of the media you want to upload. In the context of your code, file.tempFilePath is used, which is the temporary file path where the file is stored on the server before being uploaded to Cloudinary
+
+ii. options (optional) -
+Type - object
+Description 
+- A configuration object where you can specify various options to control the upload process. Common options include -
+a. folder 
+- Specifies the folder in your Cloudinary account where the file should be stored
+b. public_id 
+- Specifies a custom name for the uploaded file. If not provided, Cloudinary generates a unique name
+c. quality 
+- Controls the quality of the uploaded image (useful for reducing file size)
+d. transformation 
+- An array or object specifying transformations (e.g., resizing, cropping) to apply to the image
+
+e. resource_type 
+- Specifies the type of resource being uploaded (e.g., image, video, raw). auto allows Cloudinary to determine the resource type
+
+10. How to reduce image by height and width?
+- 
+const options = {
+  folder - 'Media',
+  transformation - [{ width - 500, height - 500, crop - "limit" }]  
+};
+
+await cloudinary.uploader.upload(file.tempFilePath, options);
+
+- crop values are as
+i. scale 
+- Resizes to fit dimensions, may distort image
+ii. fit 
+- Resizes to fit within dimensions, keeps aspect ratio
+iii. limit 
+- Resizes only if larger, maintains aspect ratio
+iv. fill 
+- Fills dimensions, crops if needed, keeps aspect ratio
+v. thumb 
+- Crops to create a thumbnail
+vi. crop 
+- Crops to exact dimensions
+vii. pad 
+- Resizes with padding to keep aspect ratio
+
+11. Pre and Post Middlewares
+- 
