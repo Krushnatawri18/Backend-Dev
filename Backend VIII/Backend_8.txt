@@ -18,6 +18,10 @@ npm i express-fileupload
 3. Express fileupload
 - To make App communicate with files
 - Simple express middleware for uploading files on server
+- Attribute
+i. useTempFiles	- false (default) or true
+- By default this module uploads files into RAM
+- true avoids memory overflow issues when uploading large files or in case of uploading lots of files at same time
 
 4. Multer 
 - Can also be used for uploading files

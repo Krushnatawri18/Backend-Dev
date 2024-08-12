@@ -12,7 +12,9 @@ exports.localFileUpload = async(req, res) => {
 
         // to move file on path
         file.mv(path, (err) => {
-            console.log(err);
+            if(err){
+                console.log(err);
+            }
         });
 
         res.json({

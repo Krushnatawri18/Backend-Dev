@@ -1,0 +1,17 @@
+[33m8c2e518[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m8a2f2d3[m HEAD@{1}: commit: File Upload 1
+[33m1de78de[m HEAD@{2}: pull origin main --rebase (finish): returning to refs/heads/main
+[33m1de78de[m HEAD@{3}: pull origin main --rebase (pick): Initial Commit
+[33m0179fa1[m HEAD@{4}: pull origin main --rebase (pick): Added folders Backend, Backend II, and Backend III
+[33me51474f[m HEAD@{5}: pull origin main --rebase (start): checkout e51474fe096bda1cefd602351ba9601debfdab4f
+[33m1f72544[m HEAD@{6}: rebase (finish): returning to refs/heads/main
+[33m1f72544[m HEAD@{7}: commit: Initial Commit
+[33ma5c127e[m HEAD@{8}: commit: Added folders Backend, Backend II, and Backend III
+[33meef1158[m HEAD@{9}: pull origin main --rebase (start): checkout eef1158afad3ebc07fac7a5225eafb8288676a91
+[33m8aa33c6[m HEAD@{10}: commit: Add backend till backend - III
+[33mf0e0ef7[m HEAD@{11}: commit: Add information to backend file
+[33m4b2059f[m HEAD@{12}: commit: Add content to backend file
+[33m044759b[m HEAD@{13}: commit: Update server file
+[33m4940375[m HEAD@{14}: checkout: moving from Main to main
+[33m4940375[m HEAD@{15}: Branch: renamed refs/heads/master to refs/heads/Main
+[33m4940375[m HEAD@{17}: commit (initial): Start Backend and Make Server

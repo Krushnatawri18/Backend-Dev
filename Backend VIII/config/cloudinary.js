@@ -3,6 +3,7 @@ require('dotenv').config();
 
 exports.cloudinaryConnect = () => {
     try{
+        // function sets up the necessary credentials and configuration options that allow your application to interact with the Cloudinary API
         cloudinary.config({
             cloud_name: process.env.CLOUD_NAME,
             api_key: process.env.API_KEY,
