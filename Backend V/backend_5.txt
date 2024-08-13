@@ -4,7 +4,7 @@
 2. Express Js
 - Node.js framework
 - Enable developers to build server-side applications that take HTTP request and responses, connect to database
-- Default port no is 3000
+- Default port - 3000
 
 3. Architecture
 - Node.js interacts with MongoDB through the Mongoose ODM library, which allows Node.js applications to perform CRUD operations on MongoDB. 
