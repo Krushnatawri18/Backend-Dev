@@ -79,7 +79,8 @@ const mongoose = require('mongoose');
 // linking with db link if db is already present then it will directly connect with it else it will create new db if don't exist and then will connect
 // returns a promise
 mongoose.connect('mongodb://localhost:27017/myDatabase', {
-    // pre-defined configuration 
+    // pre-defined configuration
+    // used in older version 
     useNewUrlParser:true,
     useUnifiedTopology:true
 })
