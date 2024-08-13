@@ -16,6 +16,7 @@ const sendMailOnSave = async function (doc) {
 
         // sending mail
         let info = await transporter.sendMail({
+            // sender mail
             from: `Admin Krushna Tawri`,
             to: doc.email,
             subject: 'New file uploaded on Cloudinary',
