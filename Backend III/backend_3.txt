@@ -3,7 +3,7 @@ i. MongoClient.connect(url, options)
 - Connects to a MongoDB server
 eg. consct { MongoClient } = require('mongodb');
 const client = new MongoClient('mongodb://localhost:27017');
-await client.connet();
+await client.connect();
 
 ii. client.db(dbName)
 - Selects a database
@@ -47,7 +47,7 @@ eg. const result = await collection.deleteMany({ age: { $lt: 30 } });
 
 xii. findById(id)
 - Finds a single document by its _id field
-eg. const userId = '60d5f447f9b14630d8d53c0d'; 
+eg. const userId = '60d5f447f9b14630d8f53c0d'; 
 const user = await User.findById(userId);
 
 xiii. findByIdAndUpdate(id, update, options)
@@ -63,7 +63,7 @@ eg. const deletedUser = await User.findByIdAndDelete(userId);
 
 xv. findByIdAndRemove(id)
 - Finds a document by its _id and removes it
-eg. const userId = '60d5f447f9b14630d8d53c0d'; 
+eg. const userId = '60d5f447f9b14630d8g53c0d'; 
 User.findByIdAndRemove(userId)
   .then((deletedUser) => {
     console.log('Deleted User:', deletedUser);

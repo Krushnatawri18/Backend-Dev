@@ -55,11 +55,11 @@ npm install bcrypt
 - Key Components of a Retry Strategy
 i. Retry Count
 - Number of times to retry the operation before giving up
-- Prevents infinite retries and ensures that the system eventually moves on if the problem persists.
+- Prevents infinite retries and ensures that the system eventually moves on if the problem persists
 
 ii. Delay Between Retries
 - Amount of time to wait before each retry
-- Can be a fixed delay, an incremental delay, or an exponential backoff.
+- Can be a fixed delay, an incremental delay, or an exponential backoff
 
 iii. Backoff Strategy
 - A method for increasing the delay between retries, typically to reduce the load on a failing service and give it time to recover 

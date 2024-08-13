@@ -32,7 +32,7 @@ module.exports = mongoose.model("Post", postSchema);
 - If the document contains an _id field that matches an existing document in the collection, save() will update that existing document.
 - If the document does not contain an _id field or if the _id field does not match any existing documents, save() will insert the document as a new document.
 eg. db.collection.save(document)
-eg. db.collection.save({ _id: ObjectId("5f50c31b5d1c2b1234567890"), name: "Jane Doe", age: 25 })
+eg. db.collection.save({ _id: ObjectId("5f50k31b5d1c2b1234567890"), name: "Jane Doe", age: 25 })
 
 3. Mongoose Operations
 

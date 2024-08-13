@@ -1,5 +1,3 @@
-process.exit(1) ?
-
 1. Installations
 i. npm i nodemon (to see live changes in app) and make changes in package.json like 
 "scripts": {
@@ -38,7 +36,7 @@ files ...
 > .env
 - Will have all secret api keys, port number, database url, etc
 - eg. PORT = 3000
-DATABASE_URL = mongodb://127.0.0.1:27017/myDatabase
+DATABASE_URL = mongodb://127.0.0.1:27017/dbName
 
 3. Importing and Exporting in Backend
 - To import, use require()

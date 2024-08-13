@@ -80,9 +80,7 @@ async function uploadFileToCloudinary(file, folder, quality, width, height) {
         });
     }
     try {
-        const result = await cloudinary.uploader.upload(file.tempFilePath, options);
-        console.log('Upload Result:', result);
-        return result;
+        return await cloudinary.uploader.upload(file.tempFilePath, options);
     } catch (error) {
         console.error('Error uploading to Cloudinary:', error);
         return null; 
@@ -146,6 +144,7 @@ exports.videoUpload = async(req, res) => {
     try{
         const {name, email, tags} = req.body;
         const file = req.files.videoFile;
+        console.log(file);
 
         const supportTypes = ['mp4', 'mov'];
         const fileType = file.name.split('.')[1].toLowerCase();
@@ -156,8 +155,16 @@ exports.videoUpload = async(req, res) => {
             });
         }
 
+        // to make media file of or inside a size
+        const maxSize = 5 * 1024 * 1024;
+        if(file.size > maxSize){
+            return res.status(400).json({
+                success: false,
+                message: 'Too large content to be uploaded',
+            });
+        }
+
         const response = await uploadFileToCloudinary(file, 'Media');
-        console.log(response);
 
         const fileData = await File.create({
             name,
@@ -168,6 +175,7 @@ exports.videoUpload = async(req, res) => {
 
         res.json({
             success: true,
+            data: fileData,
             message: 'Video uploaded successfully',
         });
 

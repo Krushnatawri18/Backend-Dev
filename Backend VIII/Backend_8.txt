@@ -57,14 +57,12 @@ b. public_id
 c. quality 
 - Controls the quality of the uploaded image (useful for reducing file size)
 d. transformation 
-- An array or object specifying transformations (e.g., resizing, cropping) to apply to the image
-
+- An array or object specifying transformations (e.g. resizing, cropping) to apply to the image
 e. resource_type 
 - Specifies the type of resource being uploaded (e.g., image, video, raw). auto allows Cloudinary to determine the resource type
 
 10. How to reduce image by height and width?
-- 
-const options = {
+- const options = {
   folder - 'Media',
   transformation - [{ width - 500, height - 500, crop - "limit" }]  
 };
@@ -88,4 +86,154 @@ vii. pad
 - Resizes with padding to keep aspect ratio
 
 11. Pre and Post Middlewares
-- 
+- Pre Middleware
+- Pre middleware functions are executed before a particular operation. They can be used to modify the document, perform validation, or execute any logic before the operation is carried out
+- Common Uses of Pre Middleware -
+i. Validation - Ensure that certain fields meet specific criteria before saving
+ii. Hashing Passwords - Hash a password before saving a user document
+iii. Logging - Track when an operation is about to be performed
+eg.
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const userSchema = new mongoose.Schema({
+    username - { type - String, required - true },
+    password - { type - String, required - true },
+});
+
+// Pre-save middleware to hash the password before saving
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
+    next();
+});
+
+const User = mongoose.model('User', userSchema);
+
+- Post Middleware
+- Post middleware functions are executed after an operation is completed. They can be used to perform actions like logging, sending notifications, or cleaning up resources
+- Common Uses of Post Middleware -
+i. Logging - Record the completion of operations
+ii. Notifications - Send emails or notifications after an action like creating or updating a document
+iii. Data Processing - Perform additional processing once the data is saved or updated
+eg.
+const mongoose = require('mongoose');
+
+const orderSchema = new mongoose.Schema({
+    user - { type - mongoose.Schema.Types.ObjectId, ref - 'User' },
+    total - { type - Number, required - true },
+});
+
+// Post-save middleware to log the order creation
+orderSchema.post('save', function(doc, next) {
+    console.log(`Order ${doc._id} has been created for user ${doc.user}`);
+    next();
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
+Note - Calling pre() or post() after compiling a model does not work in Mongoose in general, so write pre() or post() before const Order = mongoose.model('Order', orderSchema)
+
+12. File upload Vs Cloudinary upload
+- File Upload to Server (Local Storage)
+i. Storage 
+- On local server
+ii. Control 
+- Full control over files
+iii. Scalability 
+- Limited by server storage
+iv. Security 
+- Manual implementation required
+v. Maintenance 
+- Requires regular server upkeep
+vi. Cost 
+- Lower for small scale; can increase with storage needs
+
+- Cloudinary Upload (Cloud Storage)
+i. Storage 
+- On Cloudinary's servers
+ii. Control 
+- Less direct, but offers advanced features
+iii. Scalability 
+- Automatically managed by Cloudinary
+iv. Security 
+- Built-in features like secure URLs
+v. Maintenance 
+- Minimal; handled by Cloudinary
+vi. Cost 
+- Free and paid plans; costs based on usage
+
+npm i nodemailer
+13. Node Mailer
+- Used for sending emails
+- Key Features -
+i. SMTP Support 
+- Nodemailer can send emails through various SMTP servers (like Gmail, Yahoo, or custom servers)
+ii. HTML Support 
+- It allows sending HTML emails and attachments
+iii. Authentication
+- Supports authentication methods to secure email sending
+iv. Customizable
+- You can configure various email sending options
+
+14. Creating mail password
+To create pass,
+- Go to your mail account
+- Go to manage your account
+- Go to Security tab
+- Do on two step verification 
+- Go to two step verification and go to down and click on App Password
+- Click on dropdown and click on other 
+- Give the name of app for which you want to use password and then click on generate
+- Password will be generated
+
+15. AWS SQS (Simple Queue Service) 
+- Managed message queue for decoupling and scaling systems
+- Features 
+i. Asynchronous communication
+ii. Reliable message storage
+iii. Automatic scalability
+iv. Visibility timeout for message processing
+- Use Case
+- If you have different parts of your system that need to communicate, SQS acts as a middleman, storing messages until they are processed
+- Types 
+i. Standard Queues - High throughput, at-least-once delivery
+ii. FIFO Queues - Exactly-once processing, ordered messages
+eg.
+  const AWS = require('aws-sdk');
+  const sqs = new AWS.SQS({ region - 'us-east-1' });
+
+  const params = {
+    QueueUrl - 'YOUR_QUEUE_URL',
+    MessageBody - 'Hello from SQS!',
+  };
+
+  sqs.sendMessage(params, (err, data) => {
+    if (err) console.log('Error', err);
+    else console.log('Success', data.MessageId);
+  });
+
+16. AWS SNS (Simple Notification Service)
+- Managed pub/sub messaging for notifications and message distribution
+- Features 
+i. Publish/subscribe messaging
+ii. Direct notifications (email, SMS, mobile push)
+iii. Scalability
+iv. Message filtering
+- Types 
+i. Standard Topics - High throughput, at-least-once delivery
+ii. FIFO Topics - Exactly-once processing, ordered messages
+eg.
+  const AWS = require('aws-sdk');
+  const sns = new AWS.SNS({ region - 'us-east-1' });
+
+  const params = {
+    Message - 'Hello from SNS!',
+    TopicArn - 'YOUR_TOPIC_ARN',
+  };
+
+  sns.publish(params, (err, data) => {
+    if (err) console.log('Error', err);
+    else console.log('Success', data.MessageId);
+  });

@@ -7,13 +7,23 @@ app.use(express.json());
 // uploads files on server
 const fileUpload = require('express-fileupload');
 app.use(fileUpload({
-    useTempFiles: true, // This allows file.tempFilePath to be available
-    tempFileDir: '/tmp/' // Ensure this directory exists or set a valid one
+    useTempFiles: true, // Allows file.tempFilePath to be available
+    tempFileDir: '/tmp/', // Ensure this directory exists or set a valid one
+    // limits: {fileSize: 10 * 1024}, // To make globally consistent size of media
 }));
 
-// api route mounting
 const Upload = require('./routes/FileUpload');
 app.use('/api/v1/upload', Upload);
+
+// app.use((err, req, res, next) => {
+//     if (err && err.code === 'LIMIT_FILE_SIZE') {
+//         return res.status(413).json({
+//             success: false,
+//             message: 'File is too large to be uploaded',
+//         });
+//     }
+//     next(err);
+// });
 
 app.listen(PORT, () => {
     console.log(`Server is started at ${PORT}`)

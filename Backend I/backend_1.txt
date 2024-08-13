@@ -16,7 +16,7 @@ iv. DELETE: Remove a resource from the server
 - An operation that can be performed multiple times without changing the result beyond the initial application
 - No matter how many times you perform the operation, the outcome remains the same
 - GET: Idempotent
-- POST: Not idempotent.
+- POST: Not idempotent
 Multiple POST requests may create multiple resources or cause different changes
 - PUT: Idempotent
 - DELETE: Idempotent
