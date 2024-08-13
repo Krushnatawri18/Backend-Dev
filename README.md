@@ -26,6 +26,10 @@ This repository is designed to provide a comprehensive guide and reference for b
 - MongoDB
 - Postman
 - dotenv
+- bcrypt
+- JWT
+- Nodemailer
+- Cloudinary
 - Other NPM packages
 
 ## Getting Started
@@ -88,17 +92,17 @@ The server will start on the port specified in your .env file. If not specified,
 Use Postman or any other API testing tool to test the endpoints. You can find the list of available endpoints in the documentation or the codebase.
 
 ## Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+Contributions make the open-source community such an amazing place to learn, inspire, and create. I would greatly appreciate any contributions you make.
 
 ## Fork the Project
 1. Create your Feature Branch (git checkout -b feature/AmazingFeature)
-2. Commit your Changes (git commit -m 'Add some AmazingFeature')
+2. Commit your changes (git commit -m 'Add some AmazingFeature')
 3. Push to the Branch (git push origin feature/AmazingFeature)
 4. Open a Pull Request
 
 ## Contact
 Krushna Tawri - krishtawri123@gmail.com
 
-GitHub Repository: https://github.com/Krushnatawri18/Backend-Developement
+GitHub Repository: https://github.com/Krushnatawri18/Backend-Dev
 
 Happy Coding!
