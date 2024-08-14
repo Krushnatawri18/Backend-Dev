@@ -16,7 +16,7 @@ npm install cloudinary
 
 npm i express-fileupload
 3. Express fileupload
-- To make App communicate with files
+- To help App to communicate with files
 - Simple express middleware for uploading files on server
 - Attribute
 i. useTempFiles	- false (default) or true
@@ -30,7 +30,7 @@ i. useTempFiles	- false (default) or true
 - fetching file from object that contains all the files uploaded in a form submission
 
 6. Uploading file through Postman
-- Send file through body-> form-data-> key and value (file) pair and select type as file
+- Send file through body -> form-data -> key and value (file) pair and select type as file
 
 7. Steps for creating folder in Cloudinary to store media
 - Login to cloudinary.com
@@ -133,7 +133,7 @@ orderSchema.post('save', function(doc, next) {
 
 const Order = mongoose.model('Order', orderSchema);
 
-Note - Calling pre() or post() after compiling a model does not work in Mongoose in general, so write pre() or post() before const Order = mongoose.model('Order', orderSchema)
+Note - Calling pre() or post() after compiling a model does not work in Mongoose in general, so write pre() or post() before creating model
 
 12. File upload Vs Cloudinary upload
 - File Upload to Server (Local Storage)
@@ -182,7 +182,7 @@ To create pass,
 - Go to your mail account
 - Go to manage your account
 - Go to Security tab
-- Do on two step verification 
+- Turn on two step verification 
 - Go to two step verification and go to down and click on App Password
 - Click on dropdown and click on other 
 - Give the name of app for which you want to use password and then click on generate

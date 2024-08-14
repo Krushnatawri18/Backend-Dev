@@ -1,32 +1,9 @@
 const File = require('../models/File');
 const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
 // takes file from client and stores on some path in server
 exports.localFileUpload = async (req, res) => {
-    try {
-        // fetching file from request
-        const file = req.files.file;
-        console.log('File ', file);
-
-        let path = __dirname + '/files/' + Date.now() + `.${file.name.split('.')[1]}`;
-        console.log('Path ', path);
-
-        // to move file on path
-        file.mv(path, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-
-        res.json({
-            success: true,
-            message: 'Local file uploaded successfully',
-        });
-
-    } catch (err) {
-        console.log(err);
-    }
-
     try {
         // fetching file from request
         // file is the name of file that you pass through postman request
@@ -64,10 +41,10 @@ function isFileTypeSupported(type, supportTypes) {
 }
 
 async function uploadFileToCloudinary(file, folder, quality, width, height) {
-    const options = { 
+    const options = {
         folder,
         resource_type: 'auto',
-        quality: quality || 'auto', 
+        quality: quality || 'auto',
         transformation: []
     };
 
@@ -76,15 +53,29 @@ async function uploadFileToCloudinary(file, folder, quality, width, height) {
         options.transformation.push({
             width: width,
             height: height,
-            crop: 'fit' 
+            crop: 'fit'
         });
     }
     try {
+        // console.log('File tempFilePath', file.tempFilePath);
         return await cloudinary.uploader.upload(file.tempFilePath, options);
     } catch (error) {
         console.error('Error uploading to Cloudinary:', error);
-        return null; 
+        return null;
     }
+}
+
+// to delete file from server after successfully storing on Cloudinary
+// fs module helps to interact with files
+function removeFileFromServer(file) {
+    // unlink removes file from given path
+    fs.unlink(file.tempFilePath, (err) => {
+        if (err) {
+            console.error('Failed to delete temporary file');
+        } else {
+            console.log('Temporary file deleted successfully');
+        }
+    });
 }
 
 exports.imageUpload = async (req, res) => {
@@ -117,6 +108,8 @@ exports.imageUpload = async (req, res) => {
         const response = await uploadFileToCloudinary(file, 'Media');
         console.log(response);
 
+        removeFileFromServer(file);
+
         // saving entry in db
         const fileData = await File.create({
             name,
@@ -140,9 +133,9 @@ exports.imageUpload = async (req, res) => {
     }
 }
 
-exports.videoUpload = async(req, res) => {
-    try{
-        const {name, email, tags} = req.body;
+exports.videoUpload = async (req, res) => {
+    try {
+        const { name, email, tags } = req.body;
         const file = req.files.videoFile;
         console.log(file);
 
@@ -157,7 +150,7 @@ exports.videoUpload = async(req, res) => {
 
         // to make media file of or inside a size
         const maxSize = 5 * 1024 * 1024;
-        if(file.size > maxSize){
+        if (file.size > maxSize) {
             return res.status(400).json({
                 success: false,
                 message: 'Too large content to be uploaded',
@@ -165,6 +158,8 @@ exports.videoUpload = async(req, res) => {
         }
 
         const response = await uploadFileToCloudinary(file, 'Media');
+
+        removeFileFromServer(file);
 
         const fileData = await File.create({
             name,
@@ -180,7 +175,7 @@ exports.videoUpload = async(req, res) => {
         });
 
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         res.status(400).json({
             success: false,
@@ -189,8 +184,8 @@ exports.videoUpload = async(req, res) => {
     }
 }
 
-exports.imageReducerUpload = async(req, res) => {
-    try{
+exports.imageReducerUpload = async (req, res) => {
+    try {
         const { name, email, tags } = req.body;
         console.log(name, email, tags);
 
@@ -226,7 +221,7 @@ exports.imageReducerUpload = async(req, res) => {
             message: 'Reduced image uploaded successfully',
         });
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         res.status(400).json({
             success: false,
