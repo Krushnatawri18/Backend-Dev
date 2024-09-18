@@ -153,7 +153,7 @@ Description - The JWT to be verified
 
 - SECRET_KEY
 Type - string or Buffer
-Description - oken's signature
+Description - token's signature
 The secret key (for HMAC algorithms) or the public key (for RSA or ECDSA algorithms) used to verify the t
 - options
 Type - object (optional)
